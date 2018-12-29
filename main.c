@@ -65,7 +65,7 @@ int main(int argc, char *argv[]){
 				d = 4;
 		}
 
-		printf("%" PRIu64 "\n", siphash(key, input, c, d));
+		printf("%" PRIx64 "\n", siphash(key, input, c, d));
 
     return 0;
 }
