@@ -1,5 +1,19 @@
 # SipHash
 
+## Exmpales
+```bash
+./build/siphash -k "0123456789abcdef" -i "" -c=2 -d=4
+ae32c38ad4dd9eb8
+
+./build/siphash -k "0000000000000000" -i "" -c=2 -d=4
+76ec2f86f5f33717
+
+./build/siphash -k "0123456789abcdef" -i "hello" -c=2 -d=4
+95a3a242a9dd85d1
+```
+
+
+
 [![Build Status](https://travis-ci.org/zackehh/siphash-c.svg?branch=master)](https://travis-ci.org/zackehh/siphash-c)
 
 A C89 implementation of the SipHash cryptographic hash family. Supports any variation, although defaults to the widely used SipHash-2-4.
