@@ -74,3 +74,35 @@ uint64_t siphash(char key[16], char data[], int c, int d){
 
     return ((uint64_t)(v0 ^ v1 ^ v2 ^ v3));
 }
+
+
+uint64_t siphash_with_keys(uint64_t v0, uint64_t v1, uint64_t v2, uint64_t v3, char data[], int c, int d) {
+    uint64_t m = 0;
+
+    int i, iter = 0, index = 0, len = strlen(data);
+
+    for (; index < len; index++) {
+        m |= ((uint64_t) data[index]) << (iter++ * 8);
+        if (iter >= 8) {
+            DIGEST_BLOCK
+            iter = 0;
+            m = 0;
+        }
+    }
+
+    while (iter < 7) {
+        m |= 0 << (iter++ * 8);
+    }
+
+    m |= ((uint64_t) len) << (iter * 8);
+
+    DIGEST_BLOCK
+
+    v2 ^= 0xff;
+
+    for(i = 0; i < d; i++){
+        COMPRESS
+    }
+
+    return ((uint64_t)(v0 ^ v1 ^ v2 ^ v3));
+}
