@@ -1,6 +1,6 @@
 B = build
 BT = $(B)/test
-CFLAGS = -g -O3 -ansi -pedantic -Wall -Wextra
+CFLAGS = -g -O3 -pedantic -Wall -Wextra
 PREFIX ?= /usr/local
 SRC = main.c src/siphash.c
 TEST = test/test.c src/siphash.c

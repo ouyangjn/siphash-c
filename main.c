@@ -6,66 +6,18 @@
 #include "src/siphash.h"
 
 int main(int argc, char *argv[]){
-		FILE* fileptr;
-		long filelen;
-		char* key = NULL;
-		char* input = NULL;
+	uint64_t k0=0x53533d60e0d41298, k1=0x3116f652f9cba8c6, k2=0x80cb3befa9e54287, k3=0x53533d60e0d41298;
+	printf("keys: %lx, %lx, %lx, %lx\n", k0, k1, k2, k3);
 
-		int c = 0, d = 0, option = 0;
 
-		if (argc < 2) {
-				printf("Usage: siphash -k <key> [-i <input> | -f <filepath>] [-c=2] [-d=4]\n");
-				return 1;
-		}
+	// index 0: f6e906900e438a17
+        printf("index 0: expect f6e906900e438a17\n");
+	printf("output: %" PRIx64 "\n", siphash24(k0, k1, k2, k3, 0));
+	//siphash_with_keys(k v0, uint64_t v1, uint64_t v2, uint64_t v3, char data[], int c, int d) {
 
-		while ((option = getopt(argc, argv, "f:k:i:c:d:")) != -1) {
-				switch (option) {
-						case 'c':
-								c = atoi(optarg);
-								break;
-						case 'd':
-								d = atoi(optarg);
-								break;
-						case 'f':
-								if (access(optarg, F_OK) == -1) {
-										break;
-								}
-								fileptr = fopen(optarg, "rb");
-								fseek(fileptr, 0, SEEK_END);
-								filelen = ftell(fileptr);
-								rewind(fileptr);
-								input = (char*) malloc((filelen + 1) * sizeof(char));
-								fread(input, (size_t) filelen, 1, fileptr);
-								fclose(fileptr);
-								break;
-						case 'i':
-								input = optarg;
-								break;
-						case 'k':
-								key = optarg;
-								break;
-				}
-		}
-
-		if (key == NULL || input == NULL) {
-				printf("Usage: siphash -k <key> [-i <input> | -f <filepath>] [-c=2] [-d=4]\n");
-				return 1;
-		}
-
-		if (strlen(key) != 16) {
-				printf("Key must consist of exactly 16 bytes!\n");
-				return 1;
-		}
-
-		if (c <= 0) {
-				c = 2;
-		}
-
-		if (d <= 0) {
-				d = 4;
-		}
-
-		printf("%" PRIx64 "\n", siphash(key, input, c, d));
+	// index 1: a9d1cbc3173057f7
+        printf("index 1: expect a9d1cbc3173057f7\n");
+	printf("output: %" PRIx64 "\n", siphash24(k0, k1, k2, k3, 1));
 
     return 0;
 }
